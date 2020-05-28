@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Nav from './Nav';
 
-describe('<App />', () => {
+describe('<Nav />', () => {
 
   it('renders without crashing', () => {
     const div = document.createElement('div')
-    ReactDOM.render(<App />, div)
+    ReactDOM.render(<Nav />, div)
     ReactDOM.unmountComponentAtNode(div)
   })
 
-});
+})

@@ -1,12 +1,17 @@
 import React from 'react';
 import './App.css';
+import NoteList from './NoteList/NoteList';
+import Nav from './Nav/Nav';
 
-function App() {
-  return (
-    <main className="App">
-      
-    </main>
-  );
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <main className="App">
+        NOTEFUL
+        <Nav />
+        <NoteList />
+      </main>
+    );
+  }
 }
-
-export default App;
