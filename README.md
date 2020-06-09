@@ -7,11 +7,11 @@
 * **Index.js** 
   * **App.js** **////////// STATEFUL**
     * _nav_
-      * **NoteListNav.js** — paths: "/", "/folders/:folder"
-      * **NotePageNav.js** — path: "/notes/:note"
+      * **NoteListNav.js** — paths: "/", "/folders/:folderId"
+      * **NotePageNav.js** — path: "/notes/:noteId"
     * _main_ 
-      * **NoteListMain.js** — paths: "/", "/folders/:folder"
-      * **NotePageMain.js** — path: "/notes/:note"
+      * **NoteListMain.js** — paths: "/", "/folders/:folderId"
+      * **NotePageMain.js** — path: "/notes/:noteId"
         * **Note.js**
         
 * **dummy-store.js** _(test data prior to API integration)_
