@@ -41,7 +41,8 @@ nav li {
   text-align: center;
 }
 
-nav button {
+nav button,
+.note-list > button {
   background-color: rgba(0, 0, 0, 0.6);
   border: 2px solid black;
   color: white;
@@ -56,12 +57,17 @@ nav button {
 .note {
   border: 1px solid black;
   padding: 0 20px 20px 20px;
+  margin: 0 0 10px 0;
 }
 
 .note-list {
   flex-grow: 3;
   padding: 20px;
   border: 1px dotted rgba(0, 0, 0, 0.6)
+}
+
+.note-list > button {
+  /* currently joined with nav button */
 }
 
 ul {

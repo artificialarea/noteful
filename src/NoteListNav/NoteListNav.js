@@ -3,22 +3,23 @@ import React from 'react';
 import './NoteListNav.css';
 
 
-export default function NoteListNav(props) {
+export default class NoteListNav extends React.Component {
 
-  const { folders } = props;
-
-  return (
-    <nav>
-      <ul>
-        {folders.map(folder => 
-          <li key={folder.id}>
-            <a href="">{folder.name}</a>
-          </li>
-        )}
-      </ul>
-      <button>Add folder</button>
-    </nav>
-  )
+  render() {
+    const { folders } = this.props;    
+    return (
+      <nav>
+        <ul>
+          {folders.map(folder => 
+            <li key={folder.id}>
+              <a href="">{folder.name}</a>
+            </li>
+          )}
+        </ul>
+        <button>Add folder</button>
+      </nav>
+    )
+  }
 }
 
 NoteListNav.defaultProps = {

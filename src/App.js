@@ -4,6 +4,8 @@ import './App.css';
 import dummyStore from './dummy-store.js'; 
 import NoteListNav from './NoteListNav/NoteListNav';
 import NoteListMain from './NoteListMain/NoteListMain';
+import NotePageNav from './NotePageNav/NotePageNav';
+import NotePageMain from './NotePageMain/NotePageMain';
 import Note from './Note/Note';
 
 
@@ -44,6 +46,8 @@ export default class App extends React.Component {
         <main>
 
           <NoteListNav folders={folders}/>
+          <NotePageNav />
+         
 
           {/* <NoteListMain notes={this.state.notes}/> */}
           <Route
@@ -53,6 +57,8 @@ export default class App extends React.Component {
               return <NoteListMain notes={notes}/>
             }}
           />
+
+          <NotePageMain />
 
           <Route 
             path = 'notes/:noteId'
