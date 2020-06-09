@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NoteItem from './NoteItem';
+import Note from './Note';
 
-describe('<NoteItem />', () => {
+describe('<Note />', () => {
 
   it('renders without crashing', () => {
     const div = document.createElement('div')
-    ReactDOM.render(<NoteItem />, div)
+    ReactDOM.render(<Note />, div)
     ReactDOM.unmountComponentAtNode(div)
   });
 

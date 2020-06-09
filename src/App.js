@@ -1,9 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import './App.css';
-import NoteList from './NoteList/NoteList';
-import Nav from './Nav/Nav';
 import dummyStore from './dummy-store.js'; 
+import NoteListNav from './NoteListNav/NoteListNav';
+import NoteListMain from './NoteListMain/NoteListMain';
+import Note from './Note/Note';
 
 
 export default class App extends React.Component {
@@ -42,14 +43,23 @@ export default class App extends React.Component {
         </header>
         <main>
 
-          <Nav folders={folders}/>
+          <NoteListNav folders={folders}/>
 
-          {/* <NoteList notes={this.state.notes}/> */}
+          {/* <NoteListMain notes={this.state.notes}/> */}
           <Route
             exact 
-            path ='/'
+            path='/'
             render={() => {
-              return <NoteList notes={notes}/>
+              return <NoteListMain notes={notes}/>
+            }}
+          />
+
+          <Route 
+            path = 'notes/:noteId'
+            render={(props) => {
+              console.log(props)
+              return <div />
+              // return <Note />
             }}
           />
 

@@ -1,16 +1,16 @@
 import React from 'react';
-import './NoteList.css';
-import NoteItem from '../NoteItem/NoteItem';
+import './NoteListMain.css';
+import Note from '../Note/Note';
 
 
-export default function NoteList(props) {
+export default function NoteListMain(props) {
   const { notes } = props;
   // console.log(notes);
   return (
     <div className="note-list">
       <ul className="notes">
         {notes.map(note => 
-          <NoteItem 
+          <Note 
             key={note.id}
             name={note.name}
             modified={note.modified}
@@ -24,6 +24,6 @@ export default function NoteList(props) {
   )
 }
 
-NoteList.defaultProps = {
+NoteListMain.defaultProps = {
   notes: []
 }
