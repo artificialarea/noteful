@@ -8,7 +8,7 @@ export default class NoteListNav extends React.Component {
   render() {
     const { folders } = this.props;    
     return (
-      <nav>
+      <>
         <ul>
           {folders.map(folder => 
             <li key={folder.id}>
@@ -17,7 +17,7 @@ export default class NoteListNav extends React.Component {
           )}
         </ul>
         <button>Add folder</button>
-      </nav>
+      </>
     )
   }
 }

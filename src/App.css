@@ -12,6 +12,11 @@ body {
   font-size: 1rem;
 }
 
+.container {
+  display: flex;
+  /* justify-content: space-evenly; */
+}
+
 div, header, nav {
   /* border: 1px solid red */
 }
@@ -23,8 +28,7 @@ header {
 }
 
 main {
-  display: flex;
-  /* justify-content: space-evenly; */
+  flex-grow: 3;
 }
 
 nav {

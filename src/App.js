@@ -43,33 +43,39 @@ export default class App extends React.Component {
         <header>
           <h1>Note.ful</h1>
         </header>
-        <main>
+        <div className="container">
+          
+          <nav>
+            <NoteListNav folders={folders}/>
+            <NotePageNav />
 
-          <NoteListNav folders={folders}/>
-          <NotePageNav />
-         
+          </nav>
 
-          {/* <NoteListMain notes={this.state.notes}/> */}
-          <Route
-            exact 
-            path='/'
-            render={() => {
-              return <NoteListMain notes={notes}/>
-            }}
-          />
+          <main>
 
-          <NotePageMain />
+            {/* <NoteListMain notes={this.state.notes}/> */}
+            <Route
+              exact 
+              path='/'
+              render={() => {
+                return <NoteListMain notes={notes}/>
+              }}
+            />
 
-          <Route 
-            path = 'notes/:noteId'
-            render={(props) => {
-              console.log(props)
-              return <div />
-              // return <Note />
-            }}
-          />
+            <NotePageMain />
 
-        </main>
+            <Route 
+              path = 'notes/:noteId'
+              render={(props) => {
+                console.log(props)
+                return <div />
+                // return <Note />
+              }}
+            />
+
+          </main>
+
+        </div>
       </div>
     );
   }
