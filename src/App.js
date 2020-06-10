@@ -7,6 +7,7 @@ import NoteListMain from './NoteListMain/NoteListMain';
 import NotePageNav from './NotePageNav/NotePageNav';
 import NotePageMain from './NotePageMain/NotePageMain';
 import AddFolder from './AddFolder/AddFolder';
+import AddNote from './AddNote/AddNote';
 
 
 export default class App extends React.Component {
@@ -146,6 +147,17 @@ export default class App extends React.Component {
                     handleFolderState={(folder) => this.addFolderState(folder)}
                     onClickCancel={() => history.goBack()}
                     // onClickCancel={() => history.push('/')}
+                  />
+                )
+              }}
+            />
+
+            <Route 
+              exact path='/add-note'
+              render={() => {
+                return(
+                  <AddNote 
+                    folders = {this.state.folders}
                   />
                 )
               }}
