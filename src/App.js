@@ -6,7 +6,6 @@ import NoteListNav from './NoteListNav/NoteListNav';
 import NoteListMain from './NoteListMain/NoteListMain';
 import NotePageNav from './NotePageNav/NotePageNav';
 import NotePageMain from './NotePageMain/NotePageMain';
-import Note from './Note/Note';
 
 
 export default class App extends React.Component {
