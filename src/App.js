@@ -38,7 +38,7 @@ export default class App extends React.Component {
   render() {
     const { notes, folders } = this.state 
     // console.log(this.state);
-    console.log(folders);
+    // console.log(folders);
 
     return (
       <div className="App">
@@ -140,10 +140,12 @@ export default class App extends React.Component {
 
             <Route 
               exact path='/add-folder'
-              render={(props) => {
+              render={({history}) => {
                 return (
                   <AddFolder 
                     handleFolderState={(folder) => this.addFolderState(folder)}
+                    onClickCancel={() => history.goBack()}
+                    // onClickCancel={() => history.push('/')}
                   />
                 )
               }}

@@ -1,9 +1,10 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import uuid from 'react-uuid';
 import './AddFolder.css';
 
 
-export default class AddFolder extends React.Component {
+class AddFolder extends React.Component {
 
   // temp storage 
   constructor(props) {
@@ -38,6 +39,12 @@ export default class AddFolder extends React.Component {
     const callAsync = () => {
       // console.log(this.state);
       this.props.handleFolderState(this.state);
+
+      // possible thx to 'withRouter' package import
+      // although I could have just done it via 
+      // this.props.onClickCancel() without withRouter
+      this.props.history.goBack(); 
+      // this.props.history.push('/');
     }
 
     // async solution, v2
@@ -57,9 +64,9 @@ export default class AddFolder extends React.Component {
     //     console.log("Promise unfulfilled")
     //   }
     // })
-
   }
 
+  
 
   render() {
     return (
@@ -74,10 +81,17 @@ export default class AddFolder extends React.Component {
             id="name"
             onChange={event => this.updateFolderName(event.target.value)}
           />
-          <button>Save</button>
-          <button>Cancel</button>
+          <button type="submit">Save</button>
+          <button 
+            type="reset"
+            onClick={this.props.onClickCancel}
+          >
+            Cancel
+          </button>
         </form>
       </div>
     )
   }
 }
+
+export default withRouter(AddFolder)
