@@ -59,7 +59,7 @@ nav button,
 }
 
 nav .selected {
-  background-color: rgb(19, 250, 192);
+  background-color: aqua;
 }
 
 .note {
@@ -78,7 +78,8 @@ nav .selected {
   /* currently joined with nav button */
 }
 
-ul {
+ul, 
+li {
   list-style: none;
   margin: 0;
   padding: 0;

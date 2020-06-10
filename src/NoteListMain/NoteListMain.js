@@ -13,10 +13,9 @@ export default class NoteListMain extends React.Component {
           {notes.map(note => 
             <Note 
               key={note.id}
+              id={note.id}
               name={note.name}
               modified={note.modified}
-              folderId={note.folderId}
-              content={note.content}
             />
           )}
         </ul>
