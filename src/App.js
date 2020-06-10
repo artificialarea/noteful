@@ -6,6 +6,7 @@ import NoteListNav from './NoteListNav/NoteListNav';
 import NoteListMain from './NoteListMain/NoteListMain';
 import NotePageNav from './NotePageNav/NotePageNav';
 import NotePageMain from './NotePageMain/NotePageMain';
+import AddFolder from './AddFolder/AddFolder';
 
 
 export default class App extends React.Component {
@@ -132,6 +133,17 @@ export default class App extends React.Component {
                   // <NotePageMain id={selectedNote.id} folderId={selectedNote.folderId} content={selectedNote.content} name={selectedNote.name} modified={selectedNote.modified}/>
                   // Phew!!
                 )
+              }}
+            />
+
+            <Route 
+              exact path='/add-folder'
+              render={(props) => {
+
+                return (
+                  <AddFolder />
+                )
+
               }}
             />
 
