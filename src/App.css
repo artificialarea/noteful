@@ -58,6 +58,10 @@ nav button,
   width: 100%;
 }
 
+nav .selected {
+  background-color: rgb(19, 250, 192);
+}
+
 .note {
   border: 1px solid black;
   padding: 0 20px 20px 20px;
