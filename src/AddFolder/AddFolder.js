@@ -31,41 +31,35 @@ export default class AddFolder extends React.Component {
     // for me to access this.state.id elsewhere,
     // so need to consider asynchronous methods.
     //
-    // Disregarded creating a Promise/.then for now, 
+    // Disregarded creating a Promise/.then, 
     // in favour of the setState's callback function...
 
-    // asynch solution, v2
+    // assoc. with asnyc solution(s)
+    const callAsync = () => {
+      const { id, name } = this.state
+      console.log('id: ', id); // uuid isn't generated in time
+      console.log('name: ', name);
+    }
+
+    // async solution, v2
     this.setState({
       id: uuid()
-    }, this.callAsync2);
+    }, callAsync);
 
-    // asynch solution, v1
+    // async solution, v1
     // https://stackoverflow.com/questions/48044601/react-setstate-with-promise-as-a-callback?rq=1
     // this.setState({
     //   id: uuid()
     // }, async () => {
     //   try {
     //     console.log('waiting to complete Promise...')
-    //     this.callAsync();
+    //     callAsync();
     //   } catch (err) {
     //     console.log("Promise unfulfilled")
     //   }
     // })
 
   }
-
-  // assoc. with asych solution, v2
-  callAsync2 = () => {
-    const { id, name } = this.state
-    console.log('id: ', id); // uuid isn't generated in time
-    console.log('name: ', name);
-  }
-  // assoc. with asych solution, v1
-  // callAsync() {
-  //   const { id, name } = this.state
-  //   console.log('id: ', id); 
-  //   console.log('name: ', name);
-  // }
 
 
   render() {
