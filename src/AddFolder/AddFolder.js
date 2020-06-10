@@ -36,9 +36,8 @@ export default class AddFolder extends React.Component {
 
     // assoc. with asnyc solution(s)
     const callAsync = () => {
-      const { id, name } = this.state
-      console.log('id: ', id); // uuid isn't generated in time
-      console.log('name: ', name);
+      // console.log(this.state);
+      this.props.handleFolderState(this.state);
     }
 
     // async solution, v2

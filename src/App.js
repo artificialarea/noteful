@@ -28,15 +28,17 @@ export default class App extends React.Component {
     }, 500);
   }
 
-  updateFolderView() {
+  addFolderState(folder) {
+    // console.log('folder arg: ', folder)
     this.setState({
-
+      folders: [...this.state.folders, folder]
     })
   }
 
   render() {
     const { notes, folders } = this.state 
     // console.log(this.state);
+    console.log(folders);
 
     return (
       <div className="App">
@@ -139,11 +141,11 @@ export default class App extends React.Component {
             <Route 
               exact path='/add-folder'
               render={(props) => {
-
                 return (
-                  <AddFolder />
+                  <AddFolder 
+                    handleFolderState={(folder) => this.addFolderState(folder)}
+                  />
                 )
-
               }}
             />
 
