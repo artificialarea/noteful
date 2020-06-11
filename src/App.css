@@ -50,7 +50,7 @@ nav li {
 
 .add-btn {
   display: inline-block;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgb(253, 99, 22);
   border: 2px solid black;
   color: black;
   font-size: 1rem;
@@ -98,6 +98,28 @@ li {
   padding: 0;
 }
 
+label {
+  display: block;
+  font-size: 0.8rem;
+  color: #333;
+  padding: 20px 0 5px 0;
+}
+
+button {
+  margin: 0 5px 0 0;
+}
+
+textarea {
+  margin-bottom: 10px;
+}
 
 
+.add-folder__name {
+  margin-right: 10px;
+}
 
+.error {
+  display: inline;
+  font-size: 0.8rem;
+  color: red
+}

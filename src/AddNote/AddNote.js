@@ -1,6 +1,7 @@
 import React from 'react';
 import uuid from 'react-uuid';
 import './AddNote.css';
+import ValidationError from './ValidationError';
 
 
 export default class AddNote extends React.Component {
@@ -11,11 +12,10 @@ export default class AddNote extends React.Component {
       id: '',
       name: '',
       modified: '', 
-      // this.setState({modified: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp)});
       folderId: '',
-      content: 'type smthin here',
+      content: '',
+      submit: false, // for validation inline conditionals
     }
-    // will need to dynamically generate id (uuid) and modified timestamp upon Saving
   }
 
   updateInputs(event) {
@@ -37,25 +37,50 @@ export default class AddNote extends React.Component {
     let timestamp = new Date();
     let date = new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp);
     console.log(date)
+
     const callAsync = () => {
-      // console.log(this.state);
-      this.props.handleNoteState(this.state);
-      this.props.onClickCancel(); // instead of importing { withRouter } package
-      // this.props.history.goBack(); 
-      // this.props.history.push('/');
+      // stop submission if any of the inputs are blank
+      // which will also trigger validation (because submit property is now 'true', too)
+      const obj = this.state;
+      if (!Object.values(obj).includes('')) {
+        this.props.handleNoteState(this.state);
+        this.props.onClickCancel(); 
+      }
     }
 
     this.setState({
+      // generate unique id and timestamp 
+      // before triggering callback props to setState of überstate.notes in App.js
       id: uuid(),
-      modified: date
+      modified: date,
+      submit: true
     }, callAsync);
-
   }
 
+  validateFolder() {
+    const folder = this.state.folderId;
+    if (folder.length === 0) {
+      return 'You must pick a folder associated with the note.';
+    }
+  }
+
+  validateName() {
+    const name = this.state.name;
+    if (name.length === 0) {
+      return 'Your note must have a name.';
+    }
+  }
+
+  validateNote() {
+    const content = this.state.content;
+    if (content.length === 0) {
+      return 'What\'s your note?';
+    }
+  }
 
   render() {
     // console.log(this.state)
-    // pre-populate folder dropdown with, well, folders.
+    // pre-populate folder dropdown with... well, folders
     const { folders } = this.props;
     const options = folders.map(folder => 
       <option key={folder.id} value={folder.id}>{folder.name}</option>
@@ -66,22 +91,32 @@ export default class AddNote extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <h2>Add a note...</h2>
           <div>
-            <label htmlFor="folder">To Folder:</label>
+            <label htmlFor="folder">
+              Folder: {this.state.submit &&
+                <ValidationError message={this.validateFolder()}/>}
+            </label>
             <select onChange={(event) => this.updateSelect(event.target.value)}>
               <option value="">pick a folder</option>
               {options}
             </select>
+            
           </div>
           <div>
-            <label htmlFor="name">Note Name:</label>
+            <label htmlFor="name">
+              Name: {this.state.submit &&
+                <ValidationError message={this.validateName()}/>}
+            </label>
             <input type="text" name="name" id="name" 
               onChange={(event) => this.updateInputs(event)}
             />
           </div>
           <div>
-            <label htmlFor="content">Note Text:</label>
+            <label htmlFor="content">
+              Note: {this.state.submit &&
+                <ValidationError message={this.validateNote()}/>}
+            </label>
             <textarea name="content" id="content" 
-              rows="5" cols="30"
+              rows="5" cols="40"
               className="add-note__content"
               value={this.state.content}
               onChange={(event) => this.updateInputs(event)}
@@ -103,11 +138,3 @@ export default class AddNote extends React.Component {
 AddNote.defaultProps = {
   folders: []
 }
-
-/*
-"id": "cbc787a0-ffaf-11e8-8eb2-f2801f1b9fd1",
-"name": "Dogs",
-"modified": "2019-01-03T00:00:00.000Z",
-"folderId": "b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1",
-"content": "Corporis accusamus placeat quas non voluptas. Harum fugit molestias qui. Velit ex animi reiciendis quasi.
-*/
