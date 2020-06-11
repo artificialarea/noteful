@@ -17,10 +17,14 @@
 * **dummy-store.js** _(test data prior to API integration)_
 
 
+## Noteful API 
+* **git clone repo**: https://github.com/tomatau/noteful-json-server
+* **documentation**:
+  * http://localhost:9090/
+  * https://github.com/typicode/json-server
+
 
 <hr />
-
-Noteful API via https://github.com/tomatau/noteful-json-server
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
