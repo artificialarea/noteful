@@ -17,7 +17,7 @@
 * **dummy-store.js** _(test data prior to API integration)_
 
 
-## Noteful API 
+## Noteful API (JSON Server)
 * **git clone repo**: https://github.com/tomatau/noteful-json-server
 * **database**: http://localhost:9090/db
 * **documentation**:
