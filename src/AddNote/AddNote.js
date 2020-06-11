@@ -54,7 +54,7 @@ export default class AddNote extends React.Component {
 
 
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     // pre-populate folder dropdown with, well, folders.
     const { folders } = this.props;
     const options = folders.map(folder => 

@@ -51,8 +51,8 @@ export default class App extends React.Component {
       <div className="App">
         <header>
           <h1><Link to='/'>Note.ful</Link></h1>
-          <Link to="/add-note">Add note</Link>
-          <Link to='/add-folder'>Add folder</Link>
+          <Link className="add-btn" to="/add-note">Add note</Link>
+          <Link className="add-btn" to='/add-folder'>Add folder</Link>
         </header>
         <div className="container">
 
