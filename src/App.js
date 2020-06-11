@@ -36,10 +36,16 @@ export default class App extends React.Component {
     })
   }
 
+  addNoteState(note) {
+    this.setState({
+      notes: [note, ...this.state.notes]
+    })
+  }
+
   render() {
     const { notes, folders } = this.state 
     // console.log(this.state);
-    // console.log(folders);
+    // console.log("folders: ", folders);
 
     return (
       <div className="App">
@@ -154,10 +160,12 @@ export default class App extends React.Component {
 
             <Route 
               exact path='/add-note'
-              render={() => {
+              render={({history}) => {
                 return(
                   <AddNote 
-                    folders = {this.state.folders}
+                    folders = {folders}
+                    handleNoteState={(note) => this.addNoteState(note)}
+                    onClickCancel={() => history.push('/')}
                   />
                 )
               }}
