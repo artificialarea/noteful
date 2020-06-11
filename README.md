@@ -19,6 +19,7 @@
 
 ## Noteful API 
 * **git clone repo**: https://github.com/tomatau/noteful-json-server
+* **database**: http://localhost:9090/db
 * **documentation**:
   * http://localhost:9090/
   * https://github.com/typicode/json-server
