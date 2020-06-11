@@ -20,7 +20,7 @@ export default class NoteListMain extends React.Component {
             />
           )}
         </ul>
-        <Link to="/add-note">Add note</Link>
+        {/* <Link to="/add-note">Add note</Link> */}
       </div>
     )
   }

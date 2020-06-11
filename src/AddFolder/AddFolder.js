@@ -43,8 +43,8 @@ class AddFolder extends React.Component {
       // possible thx to 'withRouter' package import
       // although I could have just done it via 
       // this.props.onClickCancel() without withRouter
-      this.props.history.goBack(); 
-      // this.props.history.push('/');
+      // this.props.history.goBack(); 
+      this.props.history.push('/');
     }
 
     // async solution, v2

@@ -40,7 +40,7 @@ export default class AddNote extends React.Component {
     const callAsync = () => {
       // console.log(this.state);
       this.props.handleNoteState(this.state);
-      this.props.onClickCancel(); // instead of using withRouter package
+      this.props.onClickCancel(); // instead of importing { withRouter } package
       // this.props.history.goBack(); 
       // this.props.history.push('/');
     }

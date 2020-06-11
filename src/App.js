@@ -51,6 +51,8 @@ export default class App extends React.Component {
       <div className="App">
         <header>
           <h1><Link to='/'>Note.ful</Link></h1>
+          <Link to="/add-note">Add note</Link>
+          <Link to='/add-folder'>Add folder</Link>
         </header>
         <div className="container">
 
@@ -151,8 +153,8 @@ export default class App extends React.Component {
                 return (
                   <AddFolder 
                     handleFolderState={(folder) => this.addFolderState(folder)}
-                    onClickCancel={() => history.goBack()}
-                    // onClickCancel={() => history.push('/')}
+                    // onClickCancel={() => history.goBack()}
+                    onClickCancel={() => history.push('/')}
                   />
                 )
               }}

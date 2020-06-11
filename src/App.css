@@ -22,6 +22,8 @@ div, header, nav {
 }
 
 header {
+  display: flex;
+  justify-content: space-evenly;
   border: 12px solid aqua;
   background-color: aquamarine;
   padding-left: 20%;
