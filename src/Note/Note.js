@@ -42,7 +42,6 @@ export default class Note extends React.Component {
     const modified = formatDate(new Date(this.props.modified));
     const modifiedTime = formatTime(new Date(this.props.modified));
     
-    console.log('modified: ', modified)
     return (
       <li 
         key={this.props.id}

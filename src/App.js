@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import './App.css';
-import dummyStore from './dummy-store.js'; 
+// import dummyStore from './dummy-store.js'; 
+import config from './config.js';
 import NoteListNav from './NoteListNav/NoteListNav';
 import NoteListMain from './NoteListMain/NoteListMain';
 import NotePageNav from './NotePageNav/NotePageNav';
@@ -21,12 +22,43 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    // mimic API fetch call for now
-    setTimeout(() => {
-      this.setState(
-        dummyStore
-      )
-    }, 500);
+ 
+    const baseUrl = config.API_ENDPOINT;
+    const url = baseUrl + '/db';
+    // ^^^^^^ two birds with one stone
+    // const urlFolders = baseurl + '/folders';
+    // const urlNotes = baseurl + '/notes';
+    const options = {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+      }
+    }
+
+    fetch(url, options)
+      .then(response => {
+        if(!response.ok) {
+          throw new Error('Houston, we have a problem.')
+        }
+        return response.json()
+      })
+      .then(data => {
+        // smthin
+        this.setState({
+          folders: data.folders,
+          notes: data.notes
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    // earlier, mimiced API fetch call
+    // setTimeout(() => {
+    //   this.setState(
+    //     dummyStore
+    //   )
+    // }, 500);
   }
 
   addFolderState(folder) {
@@ -45,7 +77,7 @@ export default class App extends React.Component {
 
   render() {
     const { notes, folders } = this.state 
-    // console.log(this.state);
+    console.log(this.state);
     // console.log("folders: ", folders);
 
     return (
