@@ -58,15 +58,14 @@ function deleteNoteRequest(noteId, callback) {
       return response.json()
     })
     .then(data => {
-      console.log(callback)
       callback(noteId)
       // callback is a param for argument
       // this.context.deleteNote(noteId)
 
       // for instances where deleted :note.id in while NotePageMain view of :note.id.
-      if (this.props.match.params.noteId) { 
-        this.props.history.push('/');
-      }
+      // if (this.props.match.params.noteId) { 
+      //   this.props.history.push('/');
+      // }
       console.log("this.props.match.params.noteId: ", this.props.match.params.noteId)
     })
     .catch(err => {

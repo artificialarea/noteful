@@ -77,7 +77,7 @@ export default class App extends React.Component {
     })
   }
 
-  deleteNote = noteId => {
+  handleDeleteNote = noteId => {
     const newNotes = this.state.notes.filter(note =>
       note.id !== noteId
     )
@@ -92,7 +92,7 @@ export default class App extends React.Component {
 
     const noteContextValue = {
       notes: this.state.notes,
-      deleteNote: this.deleteNote
+      deleteNote: this.handleDeleteNote
     }
 
     return (
