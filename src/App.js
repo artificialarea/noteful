@@ -10,6 +10,8 @@ import NotePageMain from './NotePageMain/NotePageMain';
 import AddFolder from './AddFolder/AddFolder';
 import AddNote from './AddNote/AddNote';
 
+import NotesContext from './NotesContext';
+
 
 export default class App extends React.Component {
   
@@ -75,12 +77,26 @@ export default class App extends React.Component {
     })
   }
 
+  deleteNote = noteId => {
+    const newNotes = this.state.notes.filter(note =>
+      note.id !== noteId
+    )
+    this.setState({
+      notes: newNotes
+    })
+  }
+
   render() {
     const { notes, folders } = this.state 
-    console.log(this.state);
-    // console.log("folders: ", folders);
+    // console.log(this.state);
+
+    const noteContextValue = {
+      notes: this.state.notes,
+      deleteNote: this.deleteNote
+    }
 
     return (
+      
       <div className="App">
         <header>
           <h1><Link to='/'>Note.ful</Link></h1>
@@ -116,7 +132,7 @@ export default class App extends React.Component {
             <Route 
               exact path='/notes/:noteId'
               render={(props) => {
-                const { folders, notes } = this.state
+                // const { folders, notes } = this.state
 
                 // find the id of the note that matches the noteId from the url path
                 // to find it's associated folderId
@@ -140,45 +156,47 @@ export default class App extends React.Component {
           </nav>
 
           <main>
+            <NotesContext.Provider
+              value={noteContextValue}>
+              <Route
+                exact path='/'
+                render={() => {
+                  return <NoteListMain notes={notes}/>
+                }}
+              />
 
-            <Route
-              exact path='/'
-              render={() => {
-                return <NoteListMain notes={notes}/>
-              }}
-            />
+              <Route 
+                exact path='/folders/:folderId'
+                render={(props) => {
+                  return (
+                    // filter this.props.notes to only pass notes props 
+                    // that have a folderId
+                    // that matches the :folderId path of url
+                    <NoteListMain 
+                      notes={notes.filter(
+                        note => note.folderId === props.match.params.folderId
+                      )}
+                    />
+                  )
+                }}
+              />
 
-            <Route 
-              exact path='/folders/:folderId'
-              render={(props) => {
-                return (
-                  // filter this.props.notes to only pass notes props 
-                  // that have a folderId
-                  // that matches the :folderId path of url
-                  <NoteListMain 
-                    notes={notes.filter(
-                      note => note.folderId === props.match.params.folderId
-                    )}
-                  />
-                )
-              }}
-            />
-
-            <Route
-              exact path='/notes/:noteId'
-              render={(props) => {
-                const { notes } = this.state;
-                const selectedNote = notes.find(
-                  note => note.id === props.match.params.noteId
-                )
-                return (
-                  <NotePageMain {...selectedNote} />
-                  // ^^ spread operator (...) alternative to:
-                  // <NotePageMain id={selectedNote.id} folderId={selectedNote.folderId} content={selectedNote.content} name={selectedNote.name} modified={selectedNote.modified}/>
-                  // Phew!!
-                )
-              }}
-            />
+              <Route
+                exact path='/notes/:noteId'
+                render={(props) => {
+                  // const { notes } = this.state;
+                  const selectedNote = notes.find(
+                    note => note.id === props.match.params.noteId
+                  )
+                  return (
+                    <NotePageMain {...selectedNote} />
+                    // ^^ spread operator (...) alternative to:
+                    // <NotePageMain id={selectedNote.id} folderId={selectedNote.folderId} content={selectedNote.content} name={selectedNote.name} modified={selectedNote.modified}/>
+                    // Phew!!
+                  )
+                }}
+              />
+            </NotesContext.Provider>
 
             <Route 
               exact path='/add-folder'
