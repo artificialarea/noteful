@@ -1,50 +1,72 @@
 import React from 'react';
 // [PS1] //
-import { withRouter } from 'react-router-dom'; 
-import uuid from 'react-uuid';
+import config from '../config'
 import './AddFolder.css';
+import NotesContext from '../NotesContext';
 
 
-class AddFolder extends React.Component {
+export default class AddFolder extends React.Component {
 
-  // temp storage 
+  static contextType = NotesContext;
+
+
   constructor(props) {
     super(props)
+    // for controlled component/form
     this.state = {
-      id: '',
-      name: '',
+      name: {
+        value: '',
+        touched: false
+      }
     }
   }
 
   updateFolderName(name) {
     this.setState({
-      name
+      name: {
+        value: name,
+        touched: true
+      }
     })
   }
 
-  handleSubmit = event => {
+  handleAddFolderSubmit = (event) => {
     event.preventDefault();
 
-    const callAsync = () => {
-      // console.log(this.state);
-      this.props.handleFolderState(this.state);
-      
-      // [PS1] //
-      this.props.history.push('/');
-    }
+    const newFolder = JSON.stringify({
+			name: this.state.name.value
+		});
 
-    // [PS2] //
-    this.setState({
-      // generate unique id
-      // before triggering callback props to setState of überstate.folders in App.js
-      id: uuid()
-    }, callAsync);
+    const url = `${config.API_ENDPOINT}/folders`;
+    const options = {
+      method: 'POST',
+      body: newFolder,
+      headers: { 'content-type': 'application/json' },
+    }
+  
+    fetch(url, options)
+      .then(response => {
+        if(!response.ok) {
+          throw new Error('Houston, we have a problem.')
+        }
+        return response.json()
+      })
+      .then(data => {
+        console.log("fetch().then(response).then(data): ", data)
+        this.context.addFolder(data)
+      })
+      .then(
+        this.props.history.push('/')
+      )
+      .catch(err => {
+        console.log(err)
+      });
   }
 
   validateName() {
-    const name = this.state.name.trim();
+    const name = this.state.name.value.trim();
     if (name.length === 0) {
-      return "a string, so function has a value and is not 'undefined'.";
+      return "No string";
     }
     // else 'undefined'
     // so submit <button disabled='undefined'> 
@@ -52,11 +74,14 @@ class AddFolder extends React.Component {
 
 
   render() {
+    console.log(this.state.name)
     return (
       <div>
-        <form className="add-folder" onSubmit={this.handleSubmit}>
+        <form className="add-folder" 
+          onSubmit={this.handleAddFolderSubmit}
+        >
           <h2>Add Folder</h2>
-          <label htmlFor="name">Name of Folder:</label>
+          <label htmlFor="name">Folder name:</label>
           <input
             type="text"
             className="add-folder__name"
@@ -83,50 +108,3 @@ class AddFolder extends React.Component {
     )
   }
 }
-
-// [PS1] //
-export default withRouter(AddFolder)  
-
-
-///////////////////////////////////////////////////////////////////
-// POST-SCRIPT ////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////
-
-// [PS1] withRouter 
-///////////////////////////////////////////////////////////////////
-// https://reacttraining.com/react-router/core/api/withRouter
-//
-// this.props.history.push('/') at this level in tree structure
-// only possible thx to (imported) 'withRouter' component.
-// Although I could have done it without withRouter via
-// this.props.onClickCancel() 
-
-
-// [PS2] async + setState
-///////////////////////////////////////////////////////////////////
-// Classic asynchronous problem:
-// couldn't rely on setState generating an uuid for id in time 
-// for me to access this.state.id elsewhere,
-// so needed to consider asynchronous methods.
-//
-// Disregarded creating a Promise/.then
-// in favour of the setState's callback function...
-// 
-//// async solution, v2
-// this.setState({
-//   id: uuid()
-// }, callAsync); 
-//// callback function 'callAsync' triggered once setState completed task.
-//
-//// async solution, v1
-//// https://stackoverflow.com/questions/48044601/react-setstate-with-promise-as-a-callback?rq=1
-// this.setState({
-//   id: uuid()
-// }, async () => {
-//   try {
-//     console.log('waiting to complete Promise...')
-//     callAsync();
-//   } catch (err) {
-//     console.log("Promise unfulfilled")
-//   }
-// })

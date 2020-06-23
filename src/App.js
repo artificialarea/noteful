@@ -60,20 +60,20 @@ export default class App extends React.Component {
     })
   }
 
-  handleDeleteNote = noteId => {
+  handleDeleteNote = (noteId) => {
     this.setState({
       notes: this.state.notes.filter(note => note.id !== noteId)
     })
   }
 
-  addFolderState(folder) {
-    // console.log('folder arg: ', folder)
+  handleAddFolder = (folder) => {
+    console.log('folder arg: ', folder)
     this.setState({
       folders: [...this.state.folders, folder]
     })
   }
 
-  addNoteState(note) {
+  handleAddNote = (note) => {
     const { submit, ...rest } = note // purging 'submit' property from note object
     this.setState({
       notes: [rest, ...this.state.notes]
@@ -88,6 +88,8 @@ export default class App extends React.Component {
     const contextValue = {
       notes: this.state.notes,
       folders: this.state.folders,
+      addFolder: this.handleAddFolder,
+      addNote: this.handleAddNote,
       deleteNote: this.handleDeleteNote
     }
 
@@ -140,20 +142,12 @@ export default class App extends React.Component {
             />
   
 
-            {/* Add Note Route  */}
+            {/* Add Folder Route  */}
             <Route 
               exact path='/add-folder'
-              render={({history}) => {
-                return (
-                  <AddFolder 
-                    handleFolderState={(folder) => this.addFolderState(folder)}
-                    // onClickCancel={() => history.goBack()}
-                    onClickCancel={() => history.push('/')}
-                  />
-                )
-              }}
+              component={AddFolder}
             />
-            {/* Add Folder Route  */}
+            {/* Add Note Route  */}
             <Route 
               exact path='/add-note'
               render={({history}) => {

@@ -10,6 +10,7 @@ a {
 
 body {
   font-size: 1rem;
+  margin: 16px;
 }
 
 .container {
@@ -30,6 +31,10 @@ header {
   /* padding-left: 20%; */
 }
 
+aside {
+  padding: 20px;
+}
+
 main {
   flex-grow: 3;
 }
@@ -37,7 +42,7 @@ main {
 nav {
   flex-grow: 1;
   max-width: 300px;
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 nav li {

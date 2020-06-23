@@ -38,11 +38,7 @@ function formatTime(date) {
 
 function deleteNoteRequest(noteId, callback) {
 
-  const baseUrl = config.API_ENDPOINT;
-  // const url = baseUrl + '/db';
-  // ^^^^^^ two birds with one stone
-  // const urlFolders = baseUrl + '/folders';
-  const url = baseUrl + `/notes/${noteId}`;
+  const url = `${config.API_ENDPOINT}/notes/${noteId}`;
   const options = {
     method: 'DELETE',
     headers: {
