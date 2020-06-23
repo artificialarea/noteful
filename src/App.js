@@ -18,49 +18,52 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      folders: [],
       notes: [],
+      folders: []
     }
   }
 
   componentDidMount() {
- 
-    const baseUrl = config.API_ENDPOINT;
-    const url = baseUrl + '/db';
-    // ^^^^^^ two birds with one stone
-    // const urlFolders = baseurl + '/folders';
-    // const urlNotes = baseurl + '/notes';
-    const options = {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json',
-      }
-    }
 
-    fetch(url, options)
-      .then(response => {
-        if(!response.ok) {
-          throw new Error('Houston, we have a problem.')
-        }
-        return response.json()
-      })
-      .then(data => {
-        // smthin
-        this.setState({
-          folders: data.folders,
-          notes: data.notes
-        })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    // PROMISES: COMPOSITION
+    // https://courses.thinkful.com/react-v1/checkpoint/13#composition
+    // 
+    // Promise.all().then();
+    //
+    // Promise
+    //   .all([p1, p2, p3])
+    //   .then(arr => {
+    //     // 'arr' is an array [result-p1, result-p2, result-p3]
+    //     // ala .then(([result-p1, result-p2, result-p3]) => {...})
+    //   });
+    //
+    // Promise required in this scenario, 
+    // because multiple seperate asynchronous requests
 
-    // earlier, mimiced API fetch call
-    // setTimeout(() => {
-    //   this.setState(
-    //     dummyStore
-    //   )
-    // }, 500);
+    Promise.all([
+      fetch(`${config.API_ENDPOINT}/notes`),
+      fetch(`${config.API_ENDPOINT}/folders`)
+    ])
+    .then(([notesResponse, foldersResponse]) => {
+      if (!notesResponse.ok) // look ma, no brackets {} (in lieu, return with ;)!
+        return notesResponse.json().then(err => Promise.reject(err));
+      if (!foldersResponse.ok) 
+        return foldersResponse.json().then(err => Promise.reject(err));
+      
+      return Promise.all([notesResponse.json(), foldersResponse.json()])
+    })
+    .then(([notes, folders]) => {
+      this.setState({ notes, folders })
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
+  handleDeleteNote = noteId => {
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== noteId)
+    })
   }
 
   addFolderState(folder) {
@@ -77,27 +80,20 @@ export default class App extends React.Component {
     })
   }
 
-  handleDeleteNote = noteId => {
-    const newNotes = this.state.notes.filter(note =>
-      note.id !== noteId
-    )
-    this.setState({
-      notes: newNotes
-    })
-  }
-
+  
   render() {
     const { notes, folders } = this.state 
     // console.log(this.state);
 
-    const noteContextValue = {
+    const contextValue = {
       notes: this.state.notes,
+      folders: this.state.folders,
       deleteNote: this.handleDeleteNote
     }
 
     return (
-      
       <div className="App">
+        <NotesContext.Provider value={contextValue}>
         <header>
           <h1><Link to='/'>Note.ful</Link></h1>
           <Link className="add-btn" to="/add-note">Add note</Link>
@@ -105,99 +101,46 @@ export default class App extends React.Component {
         </header>
         <div className="container">
 
-          <nav>
+          <aside>
 
+            {/* Main Route */}
             <Route 
               exact path='/'
-              render={() => 
-                <NoteListNav folders={folders}/>
-              } 
+              component={NoteListNav}
             />
-
+            {/* Folder Route  */}
             <Route
               exact path='/folders/:folderId'
-              render={(props) => {
-              // ^^^^^^^^^^^^^^^^
-              // crucial 'route props' (inherent properties in a Route object like match, location, history, etc) obtained via route render prop function  
-                return (
-                  <NoteListNav 
-                    folders={folders}
-                    // selected route prop via the id from the url path (:folderId)
-                    selected={props.match.params.folderId} 
-                  />
-                )
-              }}
+              component={NoteListNav}
             />
-
+            {/* Note Route  */}
             <Route 
               exact path='/notes/:noteId'
-              render={(props) => {
-                // const { folders, notes } = this.state
-
-                // find the id of the note that matches the noteId from the url path
-                // to find it's associated folderId
-                const selectedFolderId = notes.find(
-                  note => note.id === props.match.params.noteId
-                ).folderId
-
-                // then find the folder with the id that matches the note.folderId
-                const selectedFolder = folders.find(
-                  folder => folder.id === selectedFolderId
-                )
-
-                return (
-                  <NotePageNav {...selectedFolder} />
-                  // ^^ spread operator (...) alternative to:
-                  // <NotePageNav id={selectedFolder.id} name={selectedFolder.name} />
-                )
-              }}
+              component={NotePageNav}
             />
 
-          </nav>
+          </aside>
 
           <main>
-            <NotesContext.Provider
-              value={noteContextValue}>
-              <Route
-                exact path='/'
-                render={() => {
-                  return <NoteListMain notes={notes}/>
-                }}
-              />
 
-              <Route 
-                exact path='/folders/:folderId'
-                render={(props) => {
-                  return (
-                    // filter this.props.notes to only pass notes props 
-                    // that have a folderId
-                    // that matches the :folderId path of url
-                    <NoteListMain 
-                      notes={notes.filter(
-                        note => note.folderId === props.match.params.folderId
-                      )}
-                    />
-                  )
-                }}
-              />
+            {/* Main Route  */}
+            <Route
+              exact path='/'
+              component={NoteListMain}
+            />
+            {/* Folder Route  */}
+            <Route 
+              exact path='/folders/:folderId'
+              component={NoteListMain}
+            />
+            {/* Note Route  */}
+            <Route
+              exact path='/notes/:noteId'
+              component={NotePageMain}
+            />
+  
 
-              <Route
-                exact path='/notes/:noteId'
-                render={(props) => {
-                  // const { notes } = this.state;
-                  const selectedNote = notes.find(
-                    note => note.id === props.match.params.noteId
-                  )
-                  return (
-                    <NotePageMain {...selectedNote} />
-                    // ^^ spread operator (...) alternative to:
-                    // <NotePageMain id={selectedNote.id} folderId={selectedNote.folderId} content={selectedNote.content} name={selectedNote.name} modified={selectedNote.modified}/>
-                    // Phew!!
-                  )
-                }}
-              />
-            </NotesContext.Provider>
-
+            {/* Add Note Route  */}
             <Route 
               exact path='/add-folder'
               render={({history}) => {
@@ -210,7 +153,7 @@ export default class App extends React.Component {
                 )
               }}
             />
-
+            {/* Add Folder Route  */}
             <Route 
               exact path='/add-note'
               render={({history}) => {
@@ -223,10 +166,10 @@ export default class App extends React.Component {
                 )
               }}
             />
-
+            
           </main>
-
         </div>
+        </NotesContext.Provider>
       </div>
     );
   }
