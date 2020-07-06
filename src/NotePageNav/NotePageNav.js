@@ -24,9 +24,20 @@ export default class NotePageNav extends React.Component {
       <>
         <h2>Folder: {selectedFolder.name}</h2>
         <nav>
-          <Link to='/'>Go back</Link>
+          {/* <Link to='/'>Go back</Link> */}
+          {/* return to folder/:folderId view, if applicable */}
+          <button
+            onClick={this.props.onClickGoBack}
+          >
+            Go back
+          </button>
         </nav>
       </>
     )
   }
+}
+
+NotePageNav.defaultProps = {
+  notes: [],
+  folders: []
 }

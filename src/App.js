@@ -118,7 +118,13 @@ export default class App extends React.Component {
             {/* Note Route  */}
             <Route 
               exact path='/notes/:noteId'
-              component={NotePageNav}
+              // component={NotePageNav}
+              render={(props) => 
+                <NotePageNav 
+                  {...props} 
+                  onClickGoBack={() => { props.history.goBack() }}
+                />
+              }
             />
 
           </aside>

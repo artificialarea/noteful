@@ -37,6 +37,12 @@ function formatTime(date) {
 }
 
 function deleteNoteRequest(noteId, callback) {
+  
+  // for instances where deleted :note.id in while NotePageMain view of :note.id.
+  // if (this.props.match.params.noteId) { 
+  //   this.props.history.push('/');
+  // }
+  // console.log("this.props.match.params.noteId: ", this.props.match.params.noteId)
 
   const url = `${config.API_ENDPOINT}/notes/${noteId}`;
   const options = {
@@ -58,11 +64,7 @@ function deleteNoteRequest(noteId, callback) {
       // callback is a param for argument
       // this.context.deleteNote(noteId)
 
-      // for instances where deleted :note.id in while NotePageMain view of :note.id.
-      // if (this.props.match.params.noteId) { 
-      //   this.props.history.push('/');
-      // }
-      console.log("this.props.match.params.noteId: ", this.props.match.params.noteId)
+      
     })
     .catch(err => {
       console.log(err)
