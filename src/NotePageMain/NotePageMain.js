@@ -8,7 +8,13 @@ export default class NotePageMain extends React.Component {
 
   static contextType = NotesContext;
 
+  handleDeleteNote = () => {
+    console.log('handleDeleteNote called')
+    this.props.history.push('/');
+  }
+
   render() {
+
 
     // Find the note that has the same id from the url (:noteId) using 'match'
     const selectedNote = this.context.notes.find(
@@ -18,11 +24,10 @@ export default class NotePageMain extends React.Component {
     return (
       <div className="note-page">
         <Note 
-          key={selectedNote.id}
           id={selectedNote.id}
           name={selectedNote.name}
           modified={selectedNote.modified}
-          folderId={selectedNote.folderId}
+          onDeleteNote={this.handleDeleteNote}
         />
         <p>{selectedNote.content}</p>
       </div>

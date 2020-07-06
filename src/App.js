@@ -90,7 +90,7 @@ export default class App extends React.Component {
       folders: this.state.folders,
       addFolder: this.handleAddFolder,
       addNote: this.handleAddNote,
-      deleteNote: this.handleDeleteNote
+      deleteNote: this.handleDeleteNote,
     }
 
     return (

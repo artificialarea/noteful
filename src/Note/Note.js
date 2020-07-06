@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'; 
 import config from '../config';
 import NotesContext from '../NotesContext';
 import './Note.css';
@@ -36,115 +37,154 @@ function formatTime(date) {
   return hours + ':' + mins + ':' + secs;
 }
 
-function deleteNoteRequest(noteId, callback) {
-  
-  // for instances where deleted :note.id in while NotePageMain view of :note.id.
-  // if (this.props.match.params.noteId) { 
-  //   this.props.history.push('/');
-  // }
-  // console.log("this.props.match.params.noteId: ", this.props.match.params.noteId)
+class Note extends React.Component {
 
-  const url = `${config.API_ENDPOINT}/notes/${noteId}`;
-  const options = {
-    method: 'DELETE',
-    headers: {
-      'content-type': 'application/json',
-    }
+  static contextType = NotesContext;
+
+  handleClickDelete = e => {
+    e.preventDefault();
+
+    const noteId = this.props.id;
+
+    // make api request
+    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => {
+      if (!res.ok) {
+        return res.json().then(err => Promise.reject(err));
+      }
+      return res.json();
+    })
+    .then(() => {
+      this.context.deleteNote(noteId)
+      // programmable navigation via parent to go to another url
+      // otherwise, will remain at this (now deleted) url, resulting in app crashing
+      this.props.onDeleteNote()
+    })
+    .catch(error => {
+      console.error({ error })
+    })
   }
 
-  fetch(url, options)
-    .then(response => {
-      if(!response.ok) {
-        throw new Error('Houston, we have a problem.')
-      }
-      return response.json()
-    })
-    .then(data => {
-      callback(noteId)
-      // callback is a param for argument
-      // this.context.deleteNote(noteId)
+  render() {
+
+    const modifiedDate = formatDate(new Date(this.props.modified));
+    const modifiedTime = formatTime(new Date(this.props.modified));
+
+    return(
+      <li className="Note">
+        <Link to={`/notes/${this.props.id}`}>
+          {this.props.name}
+        </Link>
+        <div>
+        <p>Last modified: <span className="date">{modifiedDate}</span> <span className="time">{modifiedTime}</span></p>
+
+        <button onClick={this.handleClickDelete}>
+          Delete Note
+        </button>
+        </div>
+      </li>
+    )
+  }
+
+}
+
+export default Note;
+
+
+
+
+
+
+
+
+
+
+
+
+//                                              _ 
+//                                             | |
+//  __ _ _ __ __ ___   _____ _   _  __ _ _ __ __| |
+// / _` | '__/ _` \ \ / / _ \ | | |/ _` | '__/ _` |
+// | (_| | | | (_| |\ V /  __/ |_| | (_| | | | (_| |
+// \__, |_|  \__,_| \_/ \___|\__, |\__,_|_|  \__,_|
+// __/ |                     __/ |                
+// |___/                     |___/                 
+
+
+// function deleteNoteRequest(noteId, callback) {
+  
+//   // for instances where deleted :note.id in while NotePageMain view of :note.id.
+//   // if (this.props.match.params.noteId) { 
+//   //   this.props.history.push('/');
+//   // }
+//   // console.log("this.props.match.params.noteId: ", this.props.match.params.noteId)
+
+//   const url = `${config.API_ENDPOINT}/notes/${noteId}`;
+//   const options = {
+//     method: 'DELETE',
+//     headers: {
+//       'content-type': 'application/json',
+//     }
+//   }
+
+//   fetch(url, options)
+//     .then(response => {
+//       if(!response.ok) {
+//         throw new Error('Houston, we have a problem.')
+//       }
+//       return response.json()
+//     })
+//     .then(data => {
+//       props.history.push('/')    // available via withRouter
+//       callback(noteId)
+//       // callback is a param for argument
+//       // this.context.deleteNote(noteId)
 
       
-    })
-    .catch(err => {
-      console.log(err)
-    });
-}
-
-// annoyingly Context.Consumer (this.context.deleteNote) didn't work in a class component
-// so refactored as a function component
-export default function Note(props) {
-  // const modified = new Date(props.modified);
-  const modified = formatDate(new Date(props.modified));
-  const modifiedTime = formatTime(new Date(props.modified));
-
-  
-  return (
-    <NotesContext.Consumer>
-      {(context) => (
-        <li 
-          key={props.id}
-          className="note"
-        >
-          <h2><Link to={`/notes/${props.id}`}>{props.name}</Link></h2>
-          <div>
-            <p>Last modified: <span className="date">{modified}</span> <span className="time">{modifiedTime}</span></p>
-            <button
-              onClick={() => {
-                deleteNoteRequest(
-                  props.id,
-                  context.deleteNote
-                )
-              }}
-            >
-              Delete Note
-            </button> 
-          </div>
-        </li>
-      )}
-    </NotesContext.Consumer>
-  )
-}
-
-// GRRRRRRRRR
-// why didn't Context.Consumer (this.context.deleteNote) work within a class component ????
-
-// export default class Note extends React.Component {
-//   render() {
-//     // const modified = new Date(this.props.modified);
-//     const modified = formatDate(new Date(this.props.modified));
-//     const modifiedTime = formatTime(new Date(this.props.modified));
-
-//     return (
-//       <NotesContext.Consumer>
-//         {(context) => {
-//           console.log(context)
-//           return (
-//             <>
-//           <li 
-//             key={this.props.id}
-//             className="note"
-//           >
-//             <h2><Link to={`/notes/${this.props.id}`}>{this.props.name}</Link></h2>
-//             <div>
-//               <p>Last modified: <span className="date">{modified}</span> <span className="time">{modifiedTime}</span></p>
-//               <button
-//                 onClick={() => {
-//                   deleteNoteRequest(
-//                     this.props.id,
-//                     this.context.deleteNote
-//                   )
-//                 }}
-//               >
-//                 Delete Note
-//               </button> 
-//             </div>
-//           </li>
-//           </>
-//           )
-//         }}
-//       </NotesContext.Consumer>
-//     )
-//   }
+//     })
+//     .catch(err => {
+//       console.log(err)
+//     });
 // }
 
+// // annoyingly Context.Consumer (this.context.deleteNote) didn't work in a class component
+// // so refactored as a function component
+// function Note(props) {
+//   // const modified = new Date(props.modified);
+//   const modified = formatDate(new Date(props.modified));
+//   const modifiedTime = formatTime(new Date(props.modified));
+
+  
+//   return (
+//     <NotesContext.Consumer>
+//       {(context) => (
+//         <li 
+//           key={props.id}
+//           className="note"
+//         >
+//           <h2><Link to={`/notes/${props.id}`}>{props.name}</Link></h2>
+//           <div>
+//             <p>Last modified: <span className="date">{modified}</span> <span className="time">{modifiedTime}</span></p>
+//             <button
+//               onClick={() => {
+//                 deleteNoteRequest(
+//                   props.id,
+//                   context.deleteNote
+//                 )
+//               }}
+//             >
+//               Delete Note
+//             </button> 
+//           </div>
+//         </li>
+//       )}
+//     </NotesContext.Consumer>
+//   )
+// }
+
+// export default withRouter(Note);
