@@ -76,7 +76,7 @@ class Note extends React.Component {
     const modifiedTime = formatTime(new Date(this.props.modified));
 
     return(
-      <li className="Note">
+      <li className="note">
         <Link to={`/notes/${this.props.id}`}>
           {this.props.name}
         </Link>
