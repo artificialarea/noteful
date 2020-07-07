@@ -77,9 +77,9 @@ class Note extends React.Component {
 
     return(
       <li className="note">
-        <Link to={`/notes/${this.props.id}`}>
+        <h2><Link to={`/notes/${this.props.id}`}>
           {this.props.name}
-        </Link>
+        </Link></h2>
         <div>
         <p>Last modified: <span className="date">{modifiedDate}</span> <span className="time">{modifiedTime}</span></p>
 
