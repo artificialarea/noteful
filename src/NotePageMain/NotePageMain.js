@@ -8,8 +8,8 @@ export default class NotePageMain extends React.Component {
 
   static contextType = NotesContext;
 
-  handleDeleteNote = () => {
-    console.log('handleDeleteNote called')
+  handleDeleteNote = (noteId) => {
+    console.log(`handleDeleteNote called for ${noteId}`)
     this.props.history.push('/');
   }
 

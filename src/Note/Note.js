@@ -63,7 +63,7 @@ class Note extends React.Component {
       this.context.deleteNote(noteId)
       // programmable navigation via parent to go to another url
       // otherwise, will remain at this (now deleted) url, resulting in app crashing
-      this.props.onDeleteNote()
+      this.props.onDeleteNote(noteId)
     })
     .catch(error => {
       console.error({ error })
