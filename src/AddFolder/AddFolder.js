@@ -1,5 +1,4 @@
 import React from 'react';
-// [PS1] //
 import config from '../config'
 import './AddFolder.css';
 import NotesContext from '../NotesContext';
@@ -99,7 +98,7 @@ export default class AddFolder extends React.Component {
           </button>
           <button 
             type="reset"
-            onClick={this.props.onClickCancel}
+            onClick={() => this.props.history.push('/')}
           >
             Cancel
           </button>

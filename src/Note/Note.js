@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom'; 
+import PropTypes from 'prop-types';
 import config from '../config';
 import NotesContext from '../NotesContext';
 import './Note.css';
@@ -39,6 +40,13 @@ function formatTime(date) {
 
 class Note extends React.Component {
 
+  static defaultProps = {
+    onDeleteNote: () => {},
+    match: {
+      params: {}
+    }
+  }
+
   static contextType = NotesContext;
 
   handleClickDelete = e => {
@@ -60,10 +68,13 @@ class Note extends React.Component {
       return res.json();
     })
     .then(() => {
+      // window.history.back();
+      window.location='/'
       this.context.deleteNote(noteId)
+      
       // programmable navigation via parent to go to another url
       // otherwise, will remain at this (now deleted) url, resulting in app crashing
-      this.props.onDeleteNote(noteId)
+      // this.props.onDeleteNote(noteId)
     })
     .catch(error => {
       console.error({ error })
@@ -95,6 +106,11 @@ class Note extends React.Component {
 
 export default Note;
 
+Note.propTypes = {
+  modified: PropTypes.string,
+  // id: PropTypes.string,
+  name: PropTypes.string,
+}
 
 
 
