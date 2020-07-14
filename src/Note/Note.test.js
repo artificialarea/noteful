@@ -5,15 +5,15 @@ import Note from './Note';
 
 describe('<Note />', () => {
 
-  it('renders without crashing', () => {
-    const div = document.createElement('div')
-    ReactDOM.render(
-      <BrowserRouter>
-        <Note />
-      </BrowserRouter>, 
-      div
-    )
-    ReactDOM.unmountComponentAtNode(div)
-  });
+    it('renders without crashing', () => {
+        const div = document.createElement('div')
+        ReactDOM.render(
+            <BrowserRouter>
+                <Note />
+            </BrowserRouter>,
+            div
+        )
+        ReactDOM.unmountComponentAtNode(div)
+    });
 
 });

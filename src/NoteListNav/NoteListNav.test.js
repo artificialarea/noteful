@@ -5,15 +5,15 @@ import NoteListNav from './NoteListNav';
 
 describe('<NoteListNav />', () => {
 
-  it('renders without crashing', () => {
-    const div = document.createElement('div')
-    ReactDOM.render(
-      <BrowserRouter>
-        <NoteListNav />
-      </BrowserRouter>, 
-      div
-    )
-    ReactDOM.unmountComponentAtNode(div)
-  })
+    it('renders without crashing', () => {
+        const div = document.createElement('div')
+        ReactDOM.render(
+            <BrowserRouter>
+                <NoteListNav />
+            </BrowserRouter>,
+            div
+        )
+        ReactDOM.unmountComponentAtNode(div)
+    })
 
 })
