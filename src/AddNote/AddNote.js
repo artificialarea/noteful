@@ -3,10 +3,12 @@ import uuid from 'react-uuid';
 import './AddNote.css';
 import ValidationError from './ValidationError';
 import NotesContext from '../NotesContext';
+import config from '../config';
 
 
 export default class AddNote extends React.Component {
 
+    static contextType = NotesContext;
 
     constructor(props) {
         super(props)
@@ -32,32 +34,66 @@ export default class AddNote extends React.Component {
         })
     }
 
-    handleSubmit = event => {
-        event.preventDefault();
+    handleAddNoteSubmit = (event) => {
 
-        // for this.state.modified
-        let timestamp = new Date();
-        let date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(timestamp);
-        console.log(date)
-
-        const callAsync = () => {
-            // stop submission if any of the inputs are blank
-            // which will also trigger validation (because submit property is now 'true', too)
-            const obj = this.state;
-            if (!Object.values(obj).includes('')) {
-                this.props.handleNoteState(this.state);
-                this.props.onClickCancel();
-            }
+        const newNote = JSON.stringify({
+            name: this.state.name.value,
+            folderId: this.state.folderId.value,
+            content: this.state.content.value
+        });
+        
+        const url = `${config.API_ENDPOINT}/folders`;
+        const options = {
+            method: 'POST',
+            body: newNote,
+            headers: { 'content-type': 'application/json' },
         }
-
-        this.setState({
-            // generate unique id and timestamp 
-            // before triggering callback props to setState of überstate.notes in App.js
-            id: uuid(),
-            modified: date,
-            submit: true
-        }, callAsync);
+        
+        fetch(url, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Houston, we have a problem.')
+                }
+                return response.json()
+            })
+            .then(data => {
+                console.log("fetch().then(response).then(data): ", data)
+                this.context.addNote(data)
+            })
+            .then(
+                this.props.history.push('/')
+            )
+            .catch(err => {
+                console.log(err)
+            });
     }
+    // previously
+    // handleSubmit = event => {
+    //     event.preventDefault();
+
+    //     // for this.state.modified
+    //     let timestamp = new Date();
+    //     let date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(timestamp);
+    //     console.log(date)
+
+    //     const callAsync = () => {
+    //         // stop submission if any of the inputs are blank
+    //         // which will also trigger validation (because submit property is now 'true', too)
+    //         const obj = this.state;
+    //         if (!Object.values(obj).includes('')) {
+    //             this.props.handleNoteState(this.state);
+    //             this.props.onClickCancel();
+    //         }
+    //     }
+
+    //     this.setState({
+    //         // generate unique id and timestamp 
+    //         // before triggering callback props to setState of überstate.notes in App.js
+    //         id: uuid(),
+    //         modified: date,
+    //         submit: true
+    //     }, callAsync);
+    // }
 
     validateFolder() {
         const folder = this.state.folderId;
@@ -81,16 +117,16 @@ export default class AddNote extends React.Component {
     }
 
     render() {
-        // console.log(this.state)
+        console.log(this.state)
         // pre-populate folder dropdown with... well, folders
-        const { folders } = this.props;
+        const { folders } = this.context;
         const options = folders.map(folder =>
             <option key={folder.id} value={folder.id}>{folder.name}</option>
         )
 
         return (
             <div className="add-note">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleAddNoteSubmit}>
                     <h2>Add a note...</h2>
                     <div>
                         <label htmlFor="folder">
@@ -127,7 +163,8 @@ export default class AddNote extends React.Component {
                     <button type="submit">Save</button>
                     <button
                         type="reset"
-                        onClick={this.props.onClickCancel}
+                        // onClick={this.props.onClickCancel}
+                        onClick={() => this.props.history.push('/')}
                     >
                         Cancel
                     </button>

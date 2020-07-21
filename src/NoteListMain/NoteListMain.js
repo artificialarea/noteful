@@ -14,6 +14,8 @@ export default class NoteListMain extends React.Component {
     in the url if it exists, otherwise just return the entire notes array
     */
     getNotesForFolder = (notesArray) => {
+        console.log(notesArray);
+        console.log(this.props.match.params.folderId)
         if (this.props.match.params.folderId) {
             return notesArray.filter((note) => {
                 return note.folderId === this.props.match.params.folderId
@@ -27,6 +29,7 @@ export default class NoteListMain extends React.Component {
 
         const notes = this.getNotesForFolder(this.context.notes)
         // console.log(notes);
+        console.log(notes);
 
         return (
             <div className="note-list">

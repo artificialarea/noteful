@@ -74,6 +74,7 @@ export default class App extends React.Component {
     }
 
     handleAddNote = (note) => {
+        console.log('handleAddNote')
         const { submit, ...rest } = note // purging 'submit' property from note object
         this.setState({
             notes: [rest, ...this.state.notes]
@@ -156,15 +157,16 @@ export default class App extends React.Component {
                             {/* Add Note Route  */}
                             <Route
                                 exact path='/add-note'
-                                render={({ history }) => {
-                                    return (
-                                        <AddNote
-                                            folders={folders}
-                                            handleNoteState={(note) => this.addNoteState(note)}
-                                            onClickCancel={() => history.push('/')}
-                                        />
-                                    )
-                                }}
+                                component={AddNote}
+                                // render={({ history }) => {
+                                //     return (
+                                //         <AddNote
+                                //             folders={folders}
+                                //             handleNoteState={(note) => this.addNoteState(note)}
+                                //             onClickCancel={() => history.push('/')}
+                                //         />
+                                //     )
+                                // }}
                             />
 
                         </main>
