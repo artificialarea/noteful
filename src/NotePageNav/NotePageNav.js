@@ -13,15 +13,14 @@ export default class NotePageNav extends React.Component {
     static contextType = NotesContext;
 
     render() {
-        console.log(this.context)
+        // console.log(this.context)
         let folderIdFoo = 0;
         //find the id of the note that matches the noteId from the url
         const selectedFolderId = this.context.notes.find(
             note => note.id === this.props.match.params.noteId
         )
-        console.log(selectedFolderId)
+        // console.log(selectedFolderId)
         if ( selectedFolderId ) {
-            console.log('hello')
             folderIdFoo = selectedFolderId.folderId
         }
         // find the folder with the id that matches 'selectedFolderId'

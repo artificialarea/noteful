@@ -16,7 +16,7 @@ export default class AddNote extends React.Component {
             id: '',
             name: '',
             modified: '',
-            folderId: '',
+            folderId: '...',
             content: '',
             submit: false, // for validation inline conditionals
         }

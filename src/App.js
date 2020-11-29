@@ -83,7 +83,7 @@ export default class App extends React.Component {
 
     render() {
         const { notes, folders } = this.state
-        console.log(this.state);
+        // console.log(this.state);
 
         const contextValue = {
             notes: this.state.notes,

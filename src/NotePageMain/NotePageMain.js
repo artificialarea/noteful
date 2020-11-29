@@ -9,6 +9,7 @@ export default class NotePageMain extends React.Component {
     static contextType = NotesContext;
 
     handleDeleteNote = (noteId) => {
+        console.log('handleDeleteNote back to home')
         this.props.history.push('/');
     }
 

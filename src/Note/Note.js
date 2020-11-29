@@ -70,21 +70,20 @@ class Note extends React.Component {
                 return res.json();
             })
             .then(() => {
-                // window.history.back();
-                window.location = '/'
                 this.context.deleteNote(noteId)
-
+            })
+            .then(
+                // only if in NotePageMain view
                 // programmable navigation via parent to go to another url
                 // otherwise, will remain at this (now deleted) url, resulting in app crashing
-                // this.props.onDeleteNote(noteId)
-            })
+                this.props.onDeleteNote(noteId)
+            )
             .catch(error => {
                 console.error({ error })
             })
     }
 
     render() {
-
         const modifiedDate = formatDate(new Date(this.props.modified));
         const modifiedTime = formatTime(new Date(this.props.modified));
 
