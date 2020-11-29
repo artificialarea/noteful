@@ -36,19 +36,20 @@ export default class AddNote extends React.Component {
 
     handleAddNoteSubmit = (event) => {
 
-        const newNote = JSON.stringify({
-            name: this.state.name.value,
-            folderId: this.state.folderId.value,
-            content: this.state.content.value
-        });
+        const newNote = {
+            name: this.state.name,
+            folderId: this.state.folderId,
+            content: this.state.content,
+            modified: new Date(),
+        };
 
         console.log(newNote)
         
         const url = `${config.API_ENDPOINT}/notes`;
         const options = {
             method: 'POST',
-            body: newNote,
             headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(newNote),
         }
         
         fetch(url, options)
@@ -62,7 +63,7 @@ export default class AddNote extends React.Component {
                 this.context.addNote(data)
             })
             .then(
-                this.props.history.push('/')
+                this.props.history.push(`/folders/${this.state.folderId}`)
             )
             .catch(err => {
                 console.log(err)

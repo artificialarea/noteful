@@ -32,15 +32,15 @@ export default class AddFolder extends React.Component {
     handleAddFolderSubmit = (event) => {
         event.preventDefault();
 
-        const newFolder = JSON.stringify({
+        const newFolder = {
             name: this.state.name.value
-        });
+        };
 
         const url = `${config.API_ENDPOINT}/folders`;
         const options = {
             method: 'POST',
-            body: newFolder,
             headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(newFolder),
         }
 
         fetch(url, options)
@@ -52,10 +52,11 @@ export default class AddFolder extends React.Component {
             })
             .then(data => {
                 this.context.addFolder(data)
-            })
-            .then(
                 this.props.history.push('/')
-            )
+            })
+            // .then(
+            //     this.props.history.push('/')
+            // )
             .catch(err => {
                 console.log(err)
             });

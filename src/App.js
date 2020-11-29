@@ -76,7 +76,7 @@ export default class App extends React.Component {
 
         const { submit, ...rest } = note // purging 'submit' property from note object
         this.setState({
-            notes: [rest, ...this.state.notes]
+            notes: [...this.state.notes, rest]
         })
     }
 
