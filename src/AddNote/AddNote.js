@@ -107,7 +107,6 @@ export default class AddNote extends React.Component {
 
     validateName() {
         const name = this.state.name.value.trim();
-        console.log(name)
         if (name.length === 0) {
             return 'Your note must have a name.';
         }
@@ -115,14 +114,12 @@ export default class AddNote extends React.Component {
 
     validateNote() {
         const content = this.state.content.value;
-        console.log(content)
         if (content.length === 0) {
             return 'What\'s your note?';
         }
     }
 
     render() {
-        console.log(this.state)
         // pre-populate folder dropdown with... well, folders
         const { folders } = this.context;
         const options = folders.map(folder =>
