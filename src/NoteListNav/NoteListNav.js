@@ -44,6 +44,6 @@ NoteListNav.defaultProps = {
     folders: []
 }
 
-NoteListNav.defaultProps = {
+NoteListNav.propTypes = {
     match: PropTypes.object.isRequired,
 }
