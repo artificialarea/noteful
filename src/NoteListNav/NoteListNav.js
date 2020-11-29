@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './NoteListNav.css';
-import NotesContext from '../NotesContext'
+import NotesContext from '../NotesContext';
+import PropTypes from 'prop-types';
+
 
 // This component is rendered in the <nav> for the '/' and 'folder/:folderId' routes
 export default class NoteListNav extends React.Component {
@@ -40,4 +42,8 @@ export default class NoteListNav extends React.Component {
 
 NoteListNav.defaultProps = {
     folders: []
+}
+
+NoteListNav.defaultProps = {
+    match: PropTypes.object.isRequired,
 }

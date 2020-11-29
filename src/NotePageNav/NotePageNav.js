@@ -41,7 +41,6 @@ NotePageNav.defaultProps = {
 }
 
 NotePageNav.propTypes = {
-	notes: PropTypes.array,
-    folders: PropTypes.array,
-    noteId: PropTypes.string,
+    onClickGoBack: PropTypes.func,
+    match: PropTypes.object.isRequired,
 }

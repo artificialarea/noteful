@@ -2,6 +2,7 @@ import React from 'react'
 import './NotePageMain.css'
 import Note from '../Note/Note'
 import NotesContext from '../NotesContext'
+import PropTypes from 'prop-types'
 
 
 export default class NotePageMain extends React.Component {
@@ -35,4 +36,9 @@ export default class NotePageMain extends React.Component {
             </div>
         )
     }
+}
+
+NotePageMain.defaultProps = {
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
 }

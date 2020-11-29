@@ -73,7 +73,7 @@ export default class App extends React.Component {
         }
 
         return (
-            <ErrorBoundary>
+            <ErrorBoundary render={() => <div className="error">I've got issues.</div>}>
                 <NotesContext.Provider value={contextValue}>
                     <div className="App">
                         <header>

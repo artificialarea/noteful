@@ -104,4 +104,5 @@ Note.propTypes = {
     modified: PropTypes.string,
     id: PropTypes.string,
     name: PropTypes.string,
+    onDeleteNote: PropTypes.func,
 }
