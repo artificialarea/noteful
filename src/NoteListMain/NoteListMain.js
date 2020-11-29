@@ -1,11 +1,17 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './NoteListMain.css';
 import Note from '../Note/Note';
 import NotesContext from '../NotesContext'
 
 
 export default class NoteListMain extends React.Component {
+
+    static defaultProps = {
+        match: {
+          params: {}
+        }
+      }
 
     static contextType = NotesContext;
 
@@ -14,8 +20,6 @@ export default class NoteListMain extends React.Component {
     in the url if it exists, otherwise just return the entire notes array
     */
     getNotesForFolder = (notesArray) => {
-        console.log(notesArray);
-        console.log(this.props.match.params.folderId)
         if (this.props.match.params.folderId) {
             return notesArray.filter((note) => {
                 return note.folderId === this.props.match.params.folderId
@@ -28,8 +32,6 @@ export default class NoteListMain extends React.Component {
     render() {
 
         const notes = this.getNotesForFolder(this.context.notes)
-        // console.log(notes);
-        console.log(notes);
 
         return (
             <div className="note-list">
@@ -44,7 +46,7 @@ export default class NoteListMain extends React.Component {
                         />
                     )}
                 </ul>
-                {/* <Link className="add-btn" to="/add-note">Add note</Link> */}
+                <Link className="add-btn" to="/add-note">Add note</Link>
             </div>
         )
     }

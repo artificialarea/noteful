@@ -5,7 +5,7 @@ import NoteListMain from './NoteListMain';
 
 describe('<NoteListMain />', () => {
 
-    it.only('renders without crashing', () => {
+    it('renders without crashing', () => {
         const div = document.createElement('div')
         ReactDOM.render(
             <BrowserRouter>

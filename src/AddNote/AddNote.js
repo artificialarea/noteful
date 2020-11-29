@@ -41,8 +41,10 @@ export default class AddNote extends React.Component {
             folderId: this.state.folderId.value,
             content: this.state.content.value
         });
+
+        console.log(newNote)
         
-        const url = `${config.API_ENDPOINT}/folders`;
+        const url = `${config.API_ENDPOINT}/notes`;
         const options = {
             method: 'POST',
             body: newNote,
@@ -57,7 +59,6 @@ export default class AddNote extends React.Component {
                 return response.json()
             })
             .then(data => {
-                console.log("fetch().then(response).then(data): ", data)
                 this.context.addNote(data)
             })
             .then(

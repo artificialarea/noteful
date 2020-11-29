@@ -51,7 +51,6 @@ export default class AddFolder extends React.Component {
                 return response.json()
             })
             .then(data => {
-                console.log("fetch().then(response).then(data): ", data)
                 this.context.addFolder(data)
             })
             .then(
@@ -73,7 +72,6 @@ export default class AddFolder extends React.Component {
 
 
     render() {
-        console.log(this.state.name)
         return (
             <div>
                 <form className="add-folder"

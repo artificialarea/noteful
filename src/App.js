@@ -67,14 +67,13 @@ export default class App extends React.Component {
     }
 
     handleAddFolder = (folder) => {
-        console.log('folder arg: ', folder)
         this.setState({
             folders: [...this.state.folders, folder]
         })
     }
 
     handleAddNote = (note) => {
-        console.log('handleAddNote')
+
         const { submit, ...rest } = note // purging 'submit' property from note object
         this.setState({
             notes: [rest, ...this.state.notes]
@@ -84,7 +83,7 @@ export default class App extends React.Component {
 
     render() {
         const { notes, folders } = this.state
-        // console.log(this.state);
+        console.log(this.state);
 
         const contextValue = {
             notes: this.state.notes,
