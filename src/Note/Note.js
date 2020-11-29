@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom'; // no longer necessary due to this.context
-import { format } from 'date-fns';  // TODO
 import PropTypes from 'prop-types';
 import config from '../config';
 import NotesContext from '../NotesContext';

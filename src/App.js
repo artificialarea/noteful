@@ -11,6 +11,7 @@ import AddFolder from './AddFolder/AddFolder';
 import AddNote from './AddNote/AddNote';
 
 import NotesContext from './NotesContext';
+import ErrorBoundary from './ErrorBoundary';
 
 
 export default class App extends React.Component {
@@ -80,10 +81,7 @@ export default class App extends React.Component {
         })
     }
 
-
     render() {
-        const { notes, folders } = this.state
-        // console.log(this.state);
 
         const contextValue = {
             notes: this.state.notes,
@@ -94,84 +92,86 @@ export default class App extends React.Component {
         }
 
         return (
-            <div className="App">
+            <ErrorBoundary>
                 <NotesContext.Provider value={contextValue}>
-                    <header>
-                        <h1><Link to='/'>Note.ful</Link></h1>
-                        <Link className="add-btn" to="/add-note">Add note</Link>
-                        <Link className="add-btn" to='/add-folder'>Add folder</Link>
-                    </header>
-                    <div className="container">
+                    <div className="App">
+                        <header>
+                            <h1><Link to='/'>Note.ful</Link></h1>
+                            <Link className="add-btn" to="/add-note">Add note</Link>
+                            <Link className="add-btn" to='/add-folder'>Add folder</Link>
+                        </header>
+                        <div className="container">
 
-                        <aside>
+                            <aside>
 
-                            {/* Main Route */}
-                            <Route
-                                exact path='/'
-                                component={NoteListNav}
-                            />
-                            {/* Folder Route  */}
-                            <Route
-                                exact path='/folders/:folderId'
-                                component={NoteListNav}
-                            />
-                            {/* Note Route  */}
-                            <Route
-                                exact path='/notes/:noteId'
-                                // component={NotePageNav}
-                                render={(props) =>
-                                    <NotePageNav
-                                        {...props}
-                                        onClickGoBack={() => { props.history.goBack() }}
-                                    />
-                                }
-                            />
+                                {/* Main Route */}
+                                <Route
+                                    exact path='/'
+                                    component={NoteListNav}
+                                />
+                                {/* Folder Route  */}
+                                <Route
+                                    exact path='/folders/:folderId'
+                                    component={NoteListNav}
+                                />
+                                {/* Note Route  */}
+                                <Route
+                                    exact path='/notes/:noteId'
+                                    // component={NotePageNav}
+                                    render={(props) =>
+                                        <NotePageNav
+                                            {...props}
+                                            onClickGoBack={() => { props.history.goBack() }}
+                                        />
+                                    }
+                                />
 
-                        </aside>
+                            </aside>
 
-                        <main>
+                            <main>
 
-                            {/* Main Route  */}
-                            <Route
-                                exact path='/'
-                                component={NoteListMain}
-                            />
-                            {/* Folder Route  */}
-                            <Route
-                                exact path='/folders/:folderId'
-                                component={NoteListMain}
-                            />
-                            {/* Note Route  */}
-                            <Route
-                                exact path='/notes/:noteId'
-                                component={NotePageMain}
-                            />
+                                {/* Main Route  */}
+                                <Route
+                                    exact path='/'
+                                    component={NoteListMain}
+                                />
+                                {/* Folder Route  */}
+                                <Route
+                                    exact path='/folders/:folderId'
+                                    component={NoteListMain}
+                                />
+                                {/* Note Route  */}
+                                <Route
+                                    exact path='/notes/:noteId'
+                                    component={NotePageMain}
+                                />
 
 
-                            {/* Add Folder Route  */}
-                            <Route
-                                exact path='/add-folder'
-                                component={AddFolder}
-                            />
-                            {/* Add Note Route  */}
-                            <Route
-                                exact path='/add-note'
-                                component={AddNote}
-                                // render={({ history }) => {
-                                //     return (
-                                //         <AddNote
-                                //             folders={folders}
-                                //             handleNoteState={(note) => this.addNoteState(note)}
-                                //             onClickCancel={() => history.push('/')}
-                                //         />
-                                //     )
-                                // }}
-                            />
+                                {/* Add Folder Route  */}
+                                <Route
+                                    exact path='/add-folder'
+                                    component={AddFolder}
+                                />
+                                {/* Add Note Route  */}
+                                <Route
+                                    exact path='/add-note'
+                                    component={AddNote}
+                                    // render={({ history }) => {
+                                    //     return (
+                                    //         <AddNote
+                                    //             folders={folders}
+                                    //             handleNoteState={(note) => this.addNoteState(note)}
+                                    //             onClickCancel={() => history.push('/')}
+                                    //         />
+                                    //     )
+                                    // }}
+                                />
 
-                        </main>
+                            </main>
+                        </div>
                     </div>
                 </NotesContext.Provider>
-            </div>
+            </ErrorBoundary>
         );
     }
 }
