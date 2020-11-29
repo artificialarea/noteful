@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import './App.css';
-// import dummyStore from './dummy-store.js'; 
 import config from './config.js';
 import NoteListNav from './NoteListNav/NoteListNav';
 import NoteListMain from './NoteListMain/NoteListMain';
@@ -25,28 +24,12 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-
-        // PROMISES: COMPOSITION
-        // https://courses.thinkful.com/react-v1/checkpoint/13#composition
-        // 
-        // Promise.all().then();
-        //
-        // Promise
-        //   .all([p1, p2, p3])
-        //   .then(arr => {
-        //     // 'arr' is an array [result-p1, result-p2, result-p3]
-        //     // ala .then(([result-p1, result-p2, result-p3]) => {...})
-        //   });
-        //
-        // Promise required in this scenario, 
-        // because multiple seperate asynchronous requests
-
         Promise.all([
             fetch(`${config.API_ENDPOINT}/notes`),
             fetch(`${config.API_ENDPOINT}/folders`)
         ])
             .then(([notesResponse, foldersResponse]) => {
-                if (!notesResponse.ok) // look ma, no brackets {} (in lieu, return with ;)!
+                if (!notesResponse.ok) 
                     return notesResponse.json().then(err => Promise.reject(err));
                 if (!foldersResponse.ok)
                     return foldersResponse.json().then(err => Promise.reject(err));
@@ -74,10 +57,8 @@ export default class App extends React.Component {
     }
 
     handleAddNote = (note) => {
-
-        const { submit, ...rest } = note // purging 'submit' property from note object
         this.setState({
-            notes: [...this.state.notes, rest]
+            notes: [...this.state.notes, note]
         })
     }
 
@@ -117,7 +98,6 @@ export default class App extends React.Component {
                                 {/* Note Route  */}
                                 <Route
                                     exact path='/notes/:noteId'
-                                    // component={NotePageNav}
                                     render={(props) =>
                                         <NotePageNav
                                             {...props}
@@ -156,15 +136,6 @@ export default class App extends React.Component {
                                 <Route
                                     exact path='/add-note'
                                     component={AddNote}
-                                    // render={({ history }) => {
-                                    //     return (
-                                    //         <AddNote
-                                    //             folders={folders}
-                                    //             handleNoteState={(note) => this.addNoteState(note)}
-                                    //             onClickCancel={() => history.push('/')}
-                                    //         />
-                                    //     )
-                                    // }}
                                 />
 
                             </main>

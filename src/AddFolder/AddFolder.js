@@ -9,10 +9,8 @@ export default class AddFolder extends React.Component {
 
     static contextType = NotesContext;
 
-
     constructor(props) {
         super(props)
-        // for controlled component/form
         this.state = {
             name: {
                 value: '',
@@ -55,9 +53,6 @@ export default class AddFolder extends React.Component {
                 this.context.addFolder(data)
                 this.props.history.push('/')
             })
-            // .then(
-            //     this.props.history.push('/')
-            // )
             .catch(err => {
                 console.log(err)
             });

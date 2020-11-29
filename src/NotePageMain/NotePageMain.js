@@ -23,7 +23,6 @@ export default class NotePageMain extends React.Component {
         const selectedNote = notes.find(
             note => note.id === this.props.match.params.noteId
         )
-        console.log(selectedNote)
         return (
             <div className="note-page">
                 <Note

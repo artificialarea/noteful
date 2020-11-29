@@ -28,12 +28,6 @@ export default class AddNote extends React.Component {
         }
     }
 
-    // updateInputs(event) {
-    //     this.setState({
-    //         [event.target.name.value]: event.target.value
-    //     })
-    // }
-
     updateName(name) {
         this.setState({
             name: {
@@ -70,8 +64,6 @@ export default class AddNote extends React.Component {
             content: this.state.content.value,
             modified: new Date(),
         };
-
-        console.log(newNote)
         
         const url = `${config.API_ENDPOINT}/notes`;
         const options = {
@@ -120,7 +112,6 @@ export default class AddNote extends React.Component {
     }
 
     render() {
-        // pre-populate folder dropdown with... well, folders
         const { folders } = this.context;
         const options = folders.map(folder =>
             <option key={folder.id} value={folder.id}>{folder.name}</option>
@@ -178,7 +169,6 @@ export default class AddNote extends React.Component {
                     </button>
                     <button
                         type="reset"
-                        // onClick={this.props.onClickCancel}
                         onClick={() => this.props.history.push('/')}
                     >
                         Cancel

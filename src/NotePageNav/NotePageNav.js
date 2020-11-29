@@ -6,20 +6,14 @@ import PropTypes from 'prop-types';
 
 export default class NotePageNav extends React.Component {
 
-    // static defaultProps = {
-    //     notes: []
-    // }
-
     static contextType = NotesContext;
 
     render() {
-        // console.log(this.context)
         let folderIdFoo = 0;
         //find the id of the note that matches the noteId from the url
         const selectedFolderId = this.context.notes.find(
             note => note.id === this.props.match.params.noteId
         )
-        // console.log(selectedFolderId)
         if ( selectedFolderId ) {
             folderIdFoo = selectedFolderId.folderId
         }
@@ -32,11 +26,7 @@ export default class NotePageNav extends React.Component {
             <>
                 { selectedFolder && <h2>Folder: {selectedFolder.name}</h2>}
                 <nav>
-                    {/* <Link to='/'>Go back</Link> */}
-                    {/* return to folder/:folderId view, if applicable */}
-                    <button
-                        onClick={this.props.onClickGoBack}
-                    >
+                    <button onClick={this.props.onClickGoBack}>
                         Go back
                     </button>
                 </nav>

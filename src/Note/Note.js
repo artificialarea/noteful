@@ -54,7 +54,6 @@ class Note extends React.Component {
 
         const noteId = this.props.id;
 
-        // make api request
         fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
             method: 'DELETE',
             headers: {
@@ -71,9 +70,6 @@ class Note extends React.Component {
                 this.context.deleteNote(noteId)
             })
             .then(
-                // only if in NotePageMain view
-                // programmable navigation via parent to go to another url
-                // otherwise, will remain at this (now deleted) url, resulting in app crashing
                 this.props.onDeleteNote(noteId)
             )
             .catch(error => {
@@ -87,20 +83,19 @@ class Note extends React.Component {
 
         return (
             <li className="note">
-                <h2><Link to={`/notes/${this.props.id}`}>
-                    {this.props.name}
-                </Link></h2>
+                <h2>
+                    <Link to={`/notes/${this.props.id}`}>{this.props.name}</Link>
+                </h2>
                 <div>
                     <p>Last modified: <span className="date">{modifiedDate}</span> <span className="time">{modifiedTime}</span></p>
 
                     <button onClick={this.handleClickDelete}>
                         Delete Note
-        </button>
+                    </button>
                 </div>
             </li>
         )
     }
-
 }
 
 export default Note;
