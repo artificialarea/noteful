@@ -107,6 +107,6 @@ export default Note;
 
 Note.propTypes = {
     modified: PropTypes.string,
-    // id: PropTypes.string,
+    id: PropTypes.string,
     name: PropTypes.string,
 }

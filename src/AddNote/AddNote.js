@@ -3,6 +3,7 @@ import './AddNote.css';
 import ValidationError from './ValidationError';
 import NotesContext from '../NotesContext';
 import config from '../config';
+import PropTypes from 'prop-types';
 
 
 export default class AddNote extends React.Component {
@@ -193,4 +194,12 @@ export default class AddNote extends React.Component {
 
 AddNote.defaultProps = {
     folders: []
+}
+
+AddNote.propTypes = {
+	folders: PropTypes.arrayOf(PropTypes.shape({
+		id: PropTypes.string.isRequired,
+		name: PropTypes.string.isRequired,
+	})),
+	addNote: PropTypes.func
 }

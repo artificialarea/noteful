@@ -2,6 +2,7 @@ import React from 'react';
 import config from '../config'
 import './AddFolder.css';
 import NotesContext from '../NotesContext';
+import PropTypes from 'prop-types';
 
 
 export default class AddFolder extends React.Component {
@@ -105,4 +106,8 @@ export default class AddFolder extends React.Component {
             </div>
         )
     }
+}
+
+AddFolder.propTypes = {
+	addFolder: PropTypes.func
 }

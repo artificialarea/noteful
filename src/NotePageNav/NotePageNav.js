@@ -1,6 +1,7 @@
 import React from 'react';
 import './NotePageNav.css';
-import NotesContext from '../NotesContext'
+import NotesContext from '../NotesContext';
+import PropTypes from 'prop-types';
 
 
 export default class NotePageNav extends React.Component {
@@ -47,4 +48,10 @@ export default class NotePageNav extends React.Component {
 NotePageNav.defaultProps = {
     notes: [],
     folders: []
+}
+
+NotePageNav.propTypes = {
+	notes: PropTypes.array,
+    folders: PropTypes.array,
+    noteId: PropTypes.string,
 }
