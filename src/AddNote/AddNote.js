@@ -1,5 +1,4 @@
 import React from 'react';
-import uuid from 'react-uuid';
 import './AddNote.css';
 import ValidationError from './ValidationError';
 import NotesContext from '../NotesContext';
@@ -13,33 +12,61 @@ export default class AddNote extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            id: '',
-            name: '',
-            modified: '',
-            folderId: '...',
-            content: '',
-            submit: false, // for validation inline conditionals
+            name: {
+                value: '', 
+                touched: false
+            },
+            folderId: {
+                value: '', 
+                touched: false
+            },
+            content: {
+                value: '', 
+                touched: false
+            },
         }
     }
 
-    updateInputs(event) {
+    // updateInputs(event) {
+    //     this.setState({
+    //         [event.target.name.value]: event.target.value
+    //     })
+    // }
+
+    updateName(name) {
         this.setState({
-            [event.target.name]: event.target.value
+            name: {
+                value: name,
+                touched: true,
+            }
         })
     }
 
-    updateSelect(value) {
+    updateContent(content) {
         this.setState({
-            folderId: value
+            content: {
+                value: content,
+                touched: true,
+            }
+        })
+    }
+
+    updateFolder(folderId) {
+        this.setState({
+            folderId: {
+                value: folderId,
+                touched: true,
+            }
         })
     }
 
     handleAddNoteSubmit = (event) => {
+        event.preventDefault();
 
         const newNote = {
-            name: this.state.name,
-            folderId: this.state.folderId,
-            content: this.state.content,
+            name: this.state.name.value,
+            folderId: this.state.folderId.value,
+            content: this.state.content.value,
             modified: new Date(),
         };
 
@@ -63,56 +90,31 @@ export default class AddNote extends React.Component {
                 this.context.addNote(data)
             })
             .then(
-                this.props.history.push(`/folders/${this.state.folderId}`)
+                this.props.history.push(`/folders/${this.state.folderId.value}`)
             )
             .catch(err => {
                 console.log(err)
             });
     }
-    // previously
-    // handleSubmit = event => {
-    //     event.preventDefault();
-
-    //     // for this.state.modified
-    //     let timestamp = new Date();
-    //     let date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(timestamp);
-    //     console.log(date)
-
-    //     const callAsync = () => {
-    //         // stop submission if any of the inputs are blank
-    //         // which will also trigger validation (because submit property is now 'true', too)
-    //         const obj = this.state;
-    //         if (!Object.values(obj).includes('')) {
-    //             this.props.handleNoteState(this.state);
-    //             this.props.onClickCancel();
-    //         }
-    //     }
-
-    //     this.setState({
-    //         // generate unique id and timestamp 
-    //         // before triggering callback props to setState of überstate.notes in App.js
-    //         id: uuid(),
-    //         modified: date,
-    //         submit: true
-    //     }, callAsync);
-    // }
 
     validateFolder() {
-        const folder = this.state.folderId;
+        const folder = this.state.folderId.value;
         if (folder.length === 0) {
             return 'You must pick a folder associated with the note.';
         }
     }
 
     validateName() {
-        const name = this.state.name;
+        const name = this.state.name.value.trim();
+        console.log(name)
         if (name.length === 0) {
             return 'Your note must have a name.';
         }
     }
 
     validateNote() {
-        const content = this.state.content;
+        const content = this.state.content.value;
+        console.log(content)
         if (content.length === 0) {
             return 'What\'s your note?';
         }
@@ -135,7 +137,10 @@ export default class AddNote extends React.Component {
                             Folder: {this.state.submit &&
                                 <ValidationError message={this.validateFolder()} />}
                         </label>
-                        <select onChange={(event) => this.updateSelect(event.target.value)}>
+                        <select 
+                            id="folder"
+                            name="folder"
+                            onChange={(event) => this.updateFolder(event.target.value)}>
                             <option value="">pick a folder</option>
                             {options}
                         </select>
@@ -146,8 +151,11 @@ export default class AddNote extends React.Component {
                             Name: {this.state.submit &&
                                 <ValidationError message={this.validateName()} />}
                         </label>
-                        <input type="text" name="name" id="name"
-                            onChange={(event) => this.updateInputs(event)}
+                        <input 
+                            type="text" 
+                            name="name" 
+                            id="name"
+                            onChange={(event) => this.updateName(event.target.value)}
                         />
                     </div>
                     <div>
@@ -155,14 +163,21 @@ export default class AddNote extends React.Component {
                             Note: {this.state.submit &&
                                 <ValidationError message={this.validateNote()} />}
                         </label>
-                        <textarea name="content" id="content"
+                        <textarea 
+                            name="content" 
+                            id="content"
                             rows="5" cols="40"
                             className="add-note__content"
-                            value={this.state.content}
-                            onChange={(event) => this.updateInputs(event)}
+                            value={this.state.content.value}
+                            onChange={(event) => this.updateContent(event.target.value)}
                         />
                     </div>
-                    <button type="submit">Save</button>
+                    <button 
+                        type="submit"
+                        disabled = {this.validateName() || this.validateFolder()}
+                    >
+                        Save
+                    </button>
                     <button
                         type="reset"
                         // onClick={this.props.onClickCancel}
