@@ -12,7 +12,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-router-prop-types": "^1.0.5",
-    "react-scripts": "^4.0.1",
+    "react-scripts": "^5.0.1",
     "react-uuid": "^1.0.2"
   },
   "scripts": {
